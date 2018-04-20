@@ -2,7 +2,7 @@
 //  SiaoDefine.h
 //
 //  Created by SiaoTun on 13-4-18.
-//  Copyright (c) 2013年 SiaoTun. All rights reserved.
+//  Copyright (c) 2013年 SiaoPods. All rights reserved.
 //
 
 
@@ -108,24 +108,6 @@ _Pragma("clang diagnostic pop") \
 #else
 #define NSLog(...) {}
 #endif
-
-//Exception
-#define IgnoreException(Stuff)\
-@try { \
-Stuff \
-} \
-@catch (NSException *exception) {}
-
-//
-#define SafeSyncOnMainThread(Stuff)\
-if([NSThread isMainThread]){\
-Stuff\
-}\
-else{\
-dispatch_sync(dispatch_get_main_queue(), ^{\
-Stuff\
-});\
-}\
 
 #define FloatEqual(_first, _second) (fabsf( _first - _second ) < FLT_EPSILON)
 #define IsKindOfClass(_object, _class) [_object isKindOfClass:[_class class]]
