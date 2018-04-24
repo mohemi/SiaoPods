@@ -129,12 +129,19 @@ NSString * const kTempIdentify = @"kTempIdentify";
 #pragma mark -
 
 + (AFHTTPSessionManager *)requestManager {
-    AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
-    [manager.requestSerializer setTimeoutInterval:SiaoValue(kSiaoRequestTimeOut, 60)];
-    manager.responseSerializer = [AFJSONResponseSerializer serializer];
-    manager.requestSerializer = [AFJSONRequestSerializer serializer];
-    [manager.requestSerializer setValue:@"application/json" forHTTPHeaderField:@"Accept"];
-    manager.responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@"application/json", @"application/javascript", @"text/json", @"text/javascript", @"text/plain", @"text/html", nil];
+    
+    static AFHTTPSessionManager *manager;
+    if (!manager) {
+        static dispatch_once_t onceToken;
+        dispatch_once(&onceToken, ^{
+            manager = [AFHTTPSessionManager manager];
+            [manager.requestSerializer setTimeoutInterval:SiaoValue(kSiaoRequestTimeOut, 60)];
+            manager.responseSerializer = [AFJSONResponseSerializer serializer];
+            manager.requestSerializer = [AFJSONRequestSerializer serializer];
+            [manager.requestSerializer setValue:@"application/json" forHTTPHeaderField:@"Accept"];
+            manager.responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@"application/json", @"application/javascript", @"text/json", @"text/javascript", @"text/plain", @"text/html", nil];
+        });
+    }
     return manager;
 }
 
